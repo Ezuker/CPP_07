@@ -1,37 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Array.hpp                                          :+:      :+:    :+:   */
+/*   Array.tpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/08 00:54:43 by bcarolle          #+#    #+#             */
-/*   Updated: 2024/05/10 23:52:04 by bcarolle         ###   ########.fr       */
+/*   Created: 2024/05/10 23:08:32 by bcarolle          #+#    #+#             */
+/*   Updated: 2024/05/10 23:52:59 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARRAY_HPP
-# define ARRAY_HPP
+#ifndef ARRAY_TPP
+# define ARRAY_TPP
 
-# include <iostream>
-# include <exception>
+# include "Array.hpp"
 
-template < typename T >
-class Array
+Array::Array()
 {
-	public:
-		Array<T>();
-		Array<T>(unsigned int n);
-		Array(const Array &cpy);
-		
-		Array	&operator=(const Array &rhs);
-		Array	&operator[](unsigned int index);
+	
+}
 
-		int	size();
+Array::Array(unsigned int n)
+{
+	
+}
 
-	private:
-		T	value;
-};
+Array	&Array::operator[](unsigned int index)
+{
+	if (index > this->size())
+		throw std::exception();
+	return (this[index]);
+}
 
-#include "Array.tpp"
+unsigned int	Array::size()
+{
+	
+}
+
 #endif
