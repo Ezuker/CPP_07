@@ -6,12 +6,12 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 00:24:18 by bcarolle          #+#    #+#             */
-/*   Updated: 2024/05/10 23:45:57 by bcarolle         ###   ########.fr       */
+/*   Updated: 2024/05/11 01:55:36 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include <Array.hpp>
+#include <Array.tpp>
 
 #define MAX_VAL 750
 int main(int, char**)

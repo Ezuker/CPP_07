@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:08:32 by bcarolle          #+#    #+#             */
-/*   Updated: 2024/05/10 23:52:59 by bcarolle         ###   ########.fr       */
+/*   Updated: 2024/05/11 01:55:52 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,61 @@
 
 # include "Array.hpp"
 
-Array::Array()
+template <typename T>
+Array<T>::Array() : _size(0)
 {
 	
 }
 
-Array::Array(unsigned int n)
+template <typename T>
+Array<T>::Array(const Array<T> &cpy)
 {
-	
+	*this = cpy;
 }
 
-Array	&Array::operator[](unsigned int index)
+template <typename T>
+Array<T>	&Array<T>::operator=(const Array<T> &rhs)
 {
-	if (index > this->size())
+	this->_size = rhs._size;
+	this->value = new T[this->_size];
+	for (unsigned int i = 0; i < this->_size; i++)
+	{
+		this->value[i] = *rhs.value;
+	}
+	return (*this);
+}
+
+template <typename T>
+Array<T>::Array(unsigned int n) : _size(n)
+{
+	if (n < 0)
+	{
+		std::cerr << "Stop being an idiot" << std::endl;
+		return ;
+	}
+	try
+	{
+		this->value = new T[n];
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << "Allocation failed " << e.what() << std::endl;
+	}
+}
+
+template <typename T>
+unsigned int	Array<T>::size()
+{
+	return (this->_size);
+}
+
+template <typename T>
+T	&Array<T>::operator[](unsigned int index)
+{
+	if (index >= this->_size)
 		throw std::exception();
-	return (this[index]);
+	return (this->value[index]);
 }
 
-unsigned int	Array::size()
-{
-	
-}
 
 #endif
