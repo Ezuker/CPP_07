@@ -6,63 +6,50 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 00:24:18 by bcarolle          #+#    #+#             */
-/*   Updated: 2024/05/11 00:27:50 by bcarolle         ###   ########.fr       */
+/*   Updated: 2024/05/11 23:01:46 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "iter.hpp"
 #include <iostream>
 
-static inline void    opposite(int &nb)
+static inline void	opposite(int &nb)
 {
-    nb = -nb;
+	nb = -nb;
 }
 
-void    test1(int &exit_code)
+void	test1()
 {
-    int    arr[5] = {0, 1, 2, 3, 4};
+	int	arr[5] = {0, 1, 2, 3, 4};
 
-    ::iter(arr, 5, &opposite);
+	::iter(arr, 5, &opposite);
 
-    for (int i = 0; i < 5; i++)
-    {
-        if (arr[i] != -i)
-        {
-            std::cerr << "iteration with opposite fct doesnt work. (" << i << " : " << arr[i] << ")" << std::endl;
-            exit_code++;
-            return ;
-        }
-        else
-            std::cout << "value of " << i << " = " << arr[i] << std::endl;
-    }
+	for (int i = 0; i < 5; i++)
+	{
+		if (arr[i] != -i)
+		{
+			std::cerr << "iteration with opposite fct doesnt work. (" << i << " : " << arr[i] << ")" << std::endl;
+			return ;
+		}
+		else
+			std::cout << "value of " << i << " = " << arr[i] << std::endl;
+	}
 }
 
 
-void    test_launcher(int &exit_code, void (*test_fct)(int &), int test_nb)
+void	test_launcher(void (*test_fct)())
 {
-    int    prev_exit_code = exit_code;
-
-    try
-    {
-        (*test_fct)(exit_code);
-    }
-    catch (std::exception &err)
-    {
-        exit_code += 1;
-        std::cerr << "Unhandled exception in test : " << err.what() << std::endl;
-    }
-    if (exit_code != prev_exit_code)
-        std::cout << "Test " << test_nb << " : failed." << std::endl;
-    else
-        std::cout << "Test " << test_nb << " : success." << std::endl;
+	try
+	{
+		(*test_fct)();
+	}
+	catch (std::exception &err)
+	{
+		std::cerr << "Unhandled exception in test : " << err.what() << std::endl;
+	}
 }
 
-int    main(void)
+int	main(void)
 {
-    int    exit_code = 0;
-    int    test_nb = 1;
-
-    test_launcher(exit_code, &test1, test_nb++);
-
-    return exit_code;
+	test_launcher(&test1);
 }

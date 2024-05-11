@@ -6,7 +6,7 @@
 /*   By: bcarolle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:08:32 by bcarolle          #+#    #+#             */
-/*   Updated: 2024/05/11 01:55:52 by bcarolle         ###   ########.fr       */
+/*   Updated: 2024/05/11 23:31:38 by bcarolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,26 @@
 # include "Array.hpp"
 
 template <typename T>
-Array<T>::Array() : _size(0)
+Array<T>::Array() : _size(0), value(NULL)
 {
-	
+}
+
+template <typename T>
+Array<T>::Array(unsigned int n)
+{
+	this->_size = n;
+	try
+	{
+		if (n > 10000)
+			throw std::exception();
+		this->value = new T[n];
+	}
+	catch (std::exception &e)
+	{
+		this->value = NULL;
+		this->_size = 0;
+		std::cerr << "Allocation failed " << e.what() << std::endl;
+	}
 }
 
 template <typename T>
@@ -28,34 +45,33 @@ Array<T>::Array(const Array<T> &cpy)
 }
 
 template <typename T>
+Array<T>::~Array()
+{
+	delete [] this->value;
+}
+
+template <typename T>
 Array<T>	&Array<T>::operator=(const Array<T> &rhs)
 {
-	this->_size = rhs._size;
-	this->value = new T[this->_size];
-	for (unsigned int i = 0; i < this->_size; i++)
+	try
 	{
-		this->value[i] = *rhs.value;
+		this->_size = rhs._size;
+		this->value = new T[this->_size];
+		for (unsigned int i = 0; i < this->_size; i++)
+		{
+			this->value[i] = *rhs.value;
+		}
+		return (*this);
+	}
+	catch (std::exception &e)
+	{
+		this->value = NULL;
+		this->_size = 0;
+		std::cerr << "Allocation failed " << e.what() << std::endl;
 	}
 	return (*this);
 }
 
-template <typename T>
-Array<T>::Array(unsigned int n) : _size(n)
-{
-	if (n < 0)
-	{
-		std::cerr << "Stop being an idiot" << std::endl;
-		return ;
-	}
-	try
-	{
-		this->value = new T[n];
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << "Allocation failed " << e.what() << std::endl;
-	}
-}
 
 template <typename T>
 unsigned int	Array<T>::size()
@@ -70,6 +86,4 @@ T	&Array<T>::operator[](unsigned int index)
 		throw std::exception();
 	return (this->value[index]);
 }
-
-
 #endif
